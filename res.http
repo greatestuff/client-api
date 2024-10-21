@@ -1,0 +1,21 @@
+###User sign up endpoint
+POST http://localhost:3001/v1/user
+Content-Type: application/json
+
+{
+    "name":"said",
+    "company" : "Company name",
+    "adress" : "some adress sydney",
+    "phone" : "0645127896",
+    "email" : "e@e.com",
+    "password" : "secret123" 
+}
+
+###User sign in endpoint
+POST http://localhost:3001/v1/user/login
+Content-Type: application/json
+
+{
+    "email" : "e@e.com",
+    "password" : "secret123" 
+}
