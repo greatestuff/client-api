@@ -19,3 +19,6 @@ Content-Type: application/json
     "email" : "e@e.com",
     "password" : "secret123" 
 }
+
+
+//Access JWT :  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3Mjk2Mjg1NzAsImV4cCI6MTcyOTYyOTQ3MH0.DXwxg_n35wSSt0U3Fbv4eKtADTcm5qysioOK9d3g9y0
