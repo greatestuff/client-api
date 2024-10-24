@@ -12,16 +12,28 @@ const setJWT = async(key, value) =>
     }
 }
 
-const getJWT = async(key, value) => 
+const getJWT = async(key) => 
     {
-        try 
-        {
-            const value = await client.get(key);
-        } 
-        catch (error) 
-        {
+            return new Promise((resolve, reject) => {
+                try 
+                {
+                    client.get(key, function (err, res) {
+
+                        if(err){ reject(err); }
+                        resolve(res)
+
+                    });
+                } 
+                catch (error) 
+                {
+                    console.log(error)
+                    reject(err);
+                }
+            })
             
-        }
+
+            //console.log("Value  : " + value)
+        
     }
 
 module.exports = 

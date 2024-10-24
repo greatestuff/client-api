@@ -1,15 +1,29 @@
 const express = require("express")
 const router = express.Router()
 
-const {insertUser,getUserByEmail} = require("../model/user/User.model")
+const {insertUser,getUserByEmail, getUserByID} = require("../model/user/User.model")
 const {hashPassword,comparePassword} = require("../helpers/bcrypthelper")
 const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper")
+const { userAuthorization } = require("../middlewares/userAuthorization.middleware")
 
 
 router.all('/',(req,res,next) =>{
     //res.json({message: "return from user router"})
     next()
 })
+
+//Get user profile router
+router.get("/", userAuthorization, async(req, res)=>{
+
+    const _id = req.userID
+
+    const userProf = await getUserByID(_id)
+    
+
+    res.json({user : userProf})
+
+})
+
 
 //Create new user Router
 router.post("/",async(req, res)=>{
