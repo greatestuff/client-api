@@ -14,15 +14,6 @@ const getUserByEmail = (email) => {
 
     try 
     {
-        // UserSchema.findOne({email},(error,data)=>{
-        //     if(error)
-        //     {
-        //         console.log(error)
-        //         reject(error)
-        //     }
-        //     resolve(data) 
-        // })
-
         UserSchema.findOne({email}).then((data) => {
             resolve(data) 
         }).catch((error) => {
@@ -78,6 +69,24 @@ const storeUserRefreshJWT = (_id, token)=>
     } )
 }
 
+const updatePassowrd = (email, newHashedPassword)=>
+{
+    return new Promise((resolve,reject)=>{
+        try 
+        {
+            UserSchema.findOneAndUpdate(
+                {email},
+                {$set:{"password":newHashedPassword}},
+                {new:true}
+            )
+            .then((data)=>{resolve(data)})
+            .catch((error)=>{reject(error)})
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
-    insertUser, getUserByEmail, storeUserRefreshJWT,getUserByID
+    insertUser, getUserByEmail, storeUserRefreshJWT, getUserByID, updatePassowrd
 }

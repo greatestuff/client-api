@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "email" : "e@e.com",
-    "password" : "secret123" 
+    "password" : "password1" 
 }
 
 ###User sign up endpoint
@@ -44,6 +44,6 @@ Content-Type: application/json
 
 {
     "email" : "e@e.com",
-    "pin" : "891401",
-    "newPassword" : "password" 
+    "pin" : "734943",
+    "newPassword" : "password1" 
 }
