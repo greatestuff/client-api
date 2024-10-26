@@ -1,7 +1,15 @@
+### User log in endpoint
+POST http://localhost:3001/v1/user/login
+Content-Type: application/json
+
+{
+    "email" : "e@e.com",
+    "password" : "secret123" 
+}
+
 ###User sign up endpoint
 POST http://localhost:3001/v1/user
 Content-Type: application/json
-
 {
     "name":"said",
     "company" : "Company name",
@@ -13,17 +21,29 @@ Content-Type: application/json
 
 ### Get a user profile endpoint
 GET http://localhost:3001/v1/user
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3Mjk4MDYxMDIsImV4cCI6MTcyOTgwNzAwMn0.G_h-Q_xSEbUyuZcHhrt072wuSmmbvG7TH5FDZ-WO8Zs
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3Mjk4NzIwNDgsImV4cCI6MTcyOTg3MjEwOH0.n7qINHAv_hM6JbC193c_bPozmz_maaN39mot6dbEezg
 
 
-### User sign in endpoint
-POST http://localhost:3001/v1/user/login
+
+### Get refreshed token
+GET http://localhost:3001/v1/tokens
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3Mjk4MTEyNTQsImV4cCI6MTczMjQwMzI1NH0.Oq1FM4UUG-sdBDpbsb3Jwp9NLizD_1AHZAFuNqDIDcg
+
+### password reset endpoint
+POST http://localhost:3001/v1/user/reset-password
+Content-Type: application/json
+
+{
+    "email" : "e@e.com"
+}
+
+
+### update new password endpoint
+PATCH http://localhost:3001/v1/user/reset-password
 Content-Type: application/json
 
 {
     "email" : "e@e.com",
-    "password" : "secret123" 
+    "pin" : "891401",
+    "newPassword" : "password" 
 }
-
-
-//Access JWT :  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3Mjk2Mjg1NzAsImV4cCI6MTcyOTYyOTQ3MH0.DXwxg_n35wSSt0U3Fbv4eKtADTcm5qysioOK9d3g9y0

@@ -13,7 +13,7 @@ const setJWT = async(key, value) =>
 }
 
 const getJWT = async(key) => 
-    {
+{
             return new Promise((resolve, reject) => {
                 try 
                 {
@@ -34,10 +34,35 @@ const getJWT = async(key) =>
 
             //console.log("Value  : " + value)
         
-    }
+}
+
+const deleteAccessJWT = async(key) => 
+{
+                return new Promise((resolve, reject) => {
+                    try 
+                    {
+                        client.del(key, function (err, res) {
+    
+                            if(err){ reject(err); }
+                            resolve(res)
+    
+                        });
+                    } 
+                    catch (error) 
+                    {
+                        console.log(error)
+                        reject(err);
+                    }
+                })
+                
+    
+                //console.log("Value  : " + value)
+            
+}
 
 module.exports = 
 {
     setJWT,
-    getJWT
+    getJWT,
+    deleteAccessJWT
 }
