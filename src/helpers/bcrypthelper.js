@@ -10,4 +10,13 @@ const hashPassword = (plainPassword)=>{
 
 }
 
-module.exports = { hashPassword }
+const comparePassword = (plainPassword, passFromDB)=>{
+    return new Promise((resolve, reject)=>{
+        bcrypt.compare(plainPassword, passFromDB, function(err, result) {
+            if(err) reject(err)
+            resolve(result)
+        });
+    })
+}
+
+module.exports = { hashPassword,comparePassword }

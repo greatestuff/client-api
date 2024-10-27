@@ -1,8 +1,12 @@
 const express = require("express")
 const router = express.Router()
 
-const {insertUser} = require("../model/user/User.model")
-const {hashPassword} = require("../helpers/bcrypthelper")
+const {insertUser,getUserByEmail, getUserByID, updatePassowrd} = require("../model/user/User.model")
+const {hashPassword,comparePassword} = require("../helpers/bcrypthelper")
+const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper")
+const { userAuthorization } = require("../middlewares/userAuthorization.middleware")
+const { setPasswordResetPin, getPinByEmailPin, deletePin } = require("../model/reset-pin/resetPin.model")
+const { emailProcessor } = require("../helpers/emailhelper")
 
 
 router.all('/',(req,res,next) =>{
@@ -10,6 +14,20 @@ router.all('/',(req,res,next) =>{
     next()
 })
 
+//Get user profile router
+router.get("/", userAuthorization, async(req, res)=>{
+
+    const _id = req.userID
+
+    const userProf = await getUserByID(_id)
+    
+
+    res.json({user : userProf})
+
+})
+
+
+//Create new user Router
 router.post("/",async(req, res)=>{
     const  { name, company, adress, phone, email, password } = req.body
 
@@ -29,6 +47,87 @@ router.post("/",async(req, res)=>{
         res.json({status: "error", message : error.message})
     }
     
+})
+
+//User sign in Router
+router.post("/login",async(req, res)=>{
+    console.log(req.body)
+    const {email, password} = req.body
+
+    if(!email || !password)
+    {
+        return res.json({status : "error" , message : "Invalid form submission !"})
+    }
+
+    const user = await getUserByEmail(email)
+    const passFromDB = user && user._id ? user.password : null
+
+    if(!passFromDB){ return res.json({status : "error" , message : "Invalid email or password !"})}
+
+    const result = await comparePassword(password,passFromDB)
+     
+    if(!result){return res.json({status : "error" , message : "Invalid email or password !"})}
+
+    const accessJWT  = await createAccessJWT(user.email,user._id)
+    const refreshJWT = await createRefreshJWT(user.email,user._id)
+
+    res.json({status : "success" , message : "Login successfully !",accessJWT,refreshJWT})
+})
+
+//reset password router
+router.post("/reset-password",async(req, res)=>{
+    const {email} = req.body
+    const user = await getUserByEmail(email)
+
+    if(user && user._id)
+    {
+        const reqPin = await setPasswordResetPin(email)
+        const result = await emailProcessor({email,pin: reqPin.pin,type : "request-new-pass"})
+
+        if(result && result.messageId)
+        {
+            return res.json({status : "success" , message : "If the email exist in our database and email will be sent shortly !"})
+        }
+
+        return res.json({status : "error" , message : "Unable to process your request at the moment, Plz try again later !"})
+    }
+
+    return res.json({status : "success" , message : "If the email exist in our database and email will be sent shortly !"})
+})
+
+//update password router
+router.patch("/reset-password", async (req, res)=>{
+    const {email, pin, newPassword} = req.body
+
+    const getpin = await getPinByEmailPin(email,pin)
+    if(getpin._id)
+    {
+        const dbDate = getpin.addedAt
+        const expiresIn = 1;
+        let expDate = dbDate.setDate(dbDate.getDate() + expiresIn)
+        const today = new Date()
+
+        if(today > expDate)
+        {
+            return res.json({status : "error", message : "Expired pin"})
+            deletePin(email, pin)
+        }
+
+        const hashedPass = await hashPassword(newPassword)
+        const user = await updatePassowrd(email, hashedPass)
+
+        if(user._id)
+        {
+            const result = await emailProcessor({email, type: "password-update-success"} )
+            deletePin(email,pin)
+            return res.json({status : "success", message : "password has been updated !"})
+        }
+
+
+    }
+
+    return res.json({status : "error", message : "Unable to update you password. Plz try again later"})
+        
 })
 
 module.exports = router
