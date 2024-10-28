@@ -9,7 +9,7 @@ router.get('/',async (req,res,next) =>{
     if(decoded.email)
     {
         const userProf = await getUserByEmail(decoded.email)
-        if(userProf._id){
+        if(userProf._id && userProf.refreshJWT.token !=""){
 
             let tokenExp = userProf.refreshJWT.addedAt
             const dbRefreshToken = userProf.refreshJWT.token

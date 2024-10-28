@@ -1,12 +1,13 @@
 const express = require("express")
 const router = express.Router()
 
-const {insertUser,getUserByEmail, getUserByID, updatePassowrd} = require("../model/user/User.model")
+const {insertUser,getUserByEmail, getUserByID, updatePassowrd, storeUserRefreshJWT} = require("../model/user/User.model")
 const {hashPassword,comparePassword} = require("../helpers/bcrypthelper")
 const { createAccessJWT, createRefreshJWT } = require("../helpers/jwt.helper")
 const { userAuthorization } = require("../middlewares/userAuthorization.middleware")
 const { setPasswordResetPin, getPinByEmailPin, deletePin } = require("../model/reset-pin/resetPin.model")
 const { emailProcessor } = require("../helpers/emailhelper")
+const { deleteAccessJWT } = require("../helpers/redis.helper")
 
 
 router.all('/',(req,res,next) =>{
@@ -128,6 +129,23 @@ router.patch("/reset-password", async (req, res)=>{
 
     return res.json({status : "error", message : "Unable to update you password. Plz try again later"})
         
+})
+
+//User logout and invalidate JWT Tokens
+router.delete("/logout", userAuthorization, async(req, res)=>{
+
+    const {authorization} = req.headers
+
+    const _id = req.userID
+
+    deleteAccessJWT(authorization)
+    const result = await storeUserRefreshJWT(_id,'')
+
+    //const userProf = await getUserByID(_id)
+    
+
+    res.json({status: "succecss",message : "Logged out succesfully"})
+
 })
 
 module.exports = router
