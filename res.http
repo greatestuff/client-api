@@ -10,12 +10,13 @@ Content-Type: application/json
 ###User sign up endpoint
 POST http://localhost:3001/v1/user
 Content-Type: application/json
+
 {
     "name":"said",
     "company" : "Company name",
-    "adress" : "some adress sydney",
-    "phone" : "0645127896",
-    "email" : "e@e.com",
+    "address" : "some adress sydney",
+    "phone" : "445127896",
+    "email" : "e3@e.com",
     "password" : "secret123" 
 }
 

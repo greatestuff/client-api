@@ -8,6 +8,7 @@ const { userAuthorization } = require("../middlewares/userAuthorization.middlewa
 const { setPasswordResetPin, getPinByEmailPin, deletePin } = require("../model/reset-pin/resetPin.model")
 const { emailProcessor } = require("../helpers/emailhelper")
 const { deleteAccessJWT } = require("../helpers/redis.helper")
+const { resetPassReqValidation, updatePassValidation, newUserValidation, createNewTicketValidation } = require("../middlewares/formValidation.middleware")
 
 
 router.all('/',(req,res,next) =>{
@@ -29,7 +30,7 @@ router.get("/", userAuthorization, async(req, res)=>{
 
 
 //Create new user Router
-router.post("/",async(req, res)=>{
+router.post("/", newUserValidation,async(req, res)=>{
     const  { name, company, adress, phone, email, password } = req.body
 
     try 
@@ -76,7 +77,7 @@ router.post("/login",async(req, res)=>{
 })
 
 //reset password router
-router.post("/reset-password",async(req, res)=>{
+router.post("/reset-password", resetPassReqValidation, async(req, res)=>{
     const {email} = req.body
     const user = await getUserByEmail(email)
 
@@ -97,7 +98,7 @@ router.post("/reset-password",async(req, res)=>{
 })
 
 //update password router
-router.patch("/reset-password", async (req, res)=>{
+router.patch("/reset-password", updatePassValidation, async (req, res)=>{
     const {email, pin, newPassword} = req.body
 
     const getpin = await getPinByEmailPin(email,pin)
