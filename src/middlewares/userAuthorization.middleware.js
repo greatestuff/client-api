@@ -14,7 +14,9 @@ const userAuthorization = async (req, res, next)=>{
             return res.status(403).json({message : "Forbidden"})
         }
         
-        req.userID = userID
+
+        req.userId = userID
+
         return next()
     }
 
