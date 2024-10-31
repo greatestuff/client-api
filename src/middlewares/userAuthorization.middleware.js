@@ -7,15 +7,15 @@ const userAuthorization = async (req, res, next)=>{
     const decodedJWT = await verifyAccessJWT(authorization)
     if(decodedJWT.email)
     {
-        const userID = await getJWT(authorization)
+        const userId = await getJWT(authorization)
 
-        if(!userID)
+        if(!userId)
         {
             return res.status(403).json({message : "Forbidden"})
         }
         
 
-        req.userId = userID
+        req.userId = userId
 
         return next()
     }

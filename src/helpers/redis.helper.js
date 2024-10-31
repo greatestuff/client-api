@@ -41,12 +41,16 @@ const deleteAccessJWT = async(key) =>
                 return new Promise((resolve, reject) => {
                     try 
                     {
-                        client.del(key, function (err, res) {
+                        if(key)
+                        {
+                            client.del(key, function (err, res) {
     
-                            if(err){ reject(err); }
-                            resolve(res)
-    
-                        });
+                                if(err){ reject(err); }
+                                resolve(res)
+        
+                            });
+                        }
+                        
                     } 
                     catch (error) 
                     {

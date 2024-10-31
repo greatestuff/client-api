@@ -22,13 +22,13 @@ Content-Type: application/json
 
 ### Get a user profile endpoint
 GET http://localhost:3001/v1/user
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3MzAxMzQyODgsImV4cCI6MTczMDEzNTE4OH0.H9kRHwD8NeVFuFMTTRUVqtFFwszi2RmHU7_cO3TYffM
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3MzA0MTU3MTIsImV4cCI6MTczMjE0MzcxMn0.1xXODDkrWE1-IGLMK_NBeHfk4NfcT1lbCyqqCF2KXFU
 
 
 
 ### Get refreshed token
 GET http://localhost:3001/v1/tokens
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3Mjk4MTEyNTQsImV4cCI6MTczMjQwMzI1NH0.Oq1FM4UUG-sdBDpbsb3Jwp9NLizD_1AHZAFuNqDIDcg
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3MzAzMTIxMjIsImV4cCI6MTczMjA0MDEyMn0.xm3Cly2y_dB68RjLtHVzq7P7LMIM8PK35cG8cRuants
 
 ### password reset endpoint
 POST http://localhost:3001/v1/user/reset-password
@@ -52,4 +52,4 @@ Content-Type: application/json
 
 ### User Logout endpoint
 DELETE  http://localhost:3001/v1/user/logout
-Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3MzAxMzQ1NTcsImV4cCI6MTczMDEzNTQ1N30.RE81YVha9co34PrEcODoxOFQtaxZHdnhXPWeCmSma-E
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVAZS5jb20iLCJpYXQiOjE3MzAzMTIxMjIsImV4cCI6MTczMjA0MDEyMn0.xm3Cly2y_dB68RjLtHVzq7P7LMIM8PK35cG8cRuants

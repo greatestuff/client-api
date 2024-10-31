@@ -37,6 +37,7 @@ const getUserByID = (_id) => {
 
     try 
     {
+        console.log(_id)
         UserSchema.findOne({_id}).then((data) => {
             resolve(data) 
         }).catch((error) => {

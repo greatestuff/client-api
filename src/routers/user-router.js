@@ -19,12 +19,18 @@ router.all('/',(req,res,next) =>{
 //Get user profile router
 router.get("/", userAuthorization, async(req, res)=>{
 
-    const _id = req.userID
-
+    const _id = req.userId
     const userProf = await getUserByID(_id)
     
+    const {name,email} = userProf
 
-    res.json({user : userProf})
+    res.json({user :
+        { 
+            _id,
+            name,
+            email
+        }
+    })
 
 })
 
